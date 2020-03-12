@@ -10,6 +10,7 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
@@ -20,6 +21,14 @@ public interface ProductRepository extends JpaRepository<Product, UUID>, Queryds
     Collection<Product> findByCategoryId(@Param("categoryId") UUID categoryId);
 
     Collection<Product> findByName(@Param("name") String name);
+
+    @Transactional
+    void deleteByCategoryId(@Param("categoryId") UUID categoryId);
+
+//    @Modifying
+//    @Query(value = "DELETE FROM Product p WHERE p.categoryId = :categoryId AND p.id NOT IN :uuids")
+//    void delete(@Param("categoryId") UUID categoryId, @Param("uuids") Collection<UUID> uuids);
+//
 
     /*************** JPQL *******************/
 

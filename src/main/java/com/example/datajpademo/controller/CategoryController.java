@@ -46,15 +46,14 @@ public class CategoryController {
     @ApiOperation(value = "Создание")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UUID create(@RequestBody @Valid Category category) {
-        Category saved = repository.save(category);
-        return saved.getId();
+    public @Valid Category create(@RequestBody @Valid Category category) {
+        return repository.save(category);
     }
 
     @ApiOperation(value = "Обновление")
     @PutMapping
-    public void update(@RequestBody @Valid Category category) {
-        repository.save(category);
+    public @Valid Category update(@RequestBody @Valid Category category) {
+        return repository.save(category);
     }
 
     @ApiOperation(value = "Удаление")
@@ -81,4 +80,33 @@ public class CategoryController {
         /** 3. With DSL repository.findAll(product.categoryId.eq(categoryId)) **/
         return productRepository.findAll(product.categoryId.eq(categoryId));
     }
+
+    /************************* Set products ***************************/
+
+    @GetMapping("/{id}/products/set")
+    public Collection<Product> setProducts(@PathVariable("id") UUID categoryId) {
+        productRepository.deleteByCategoryId(categoryId);
+        return productRepository.findByCategoryId(categoryId);
+    }
+
+//    @PostMapping("/{id}/products")
+//    public Collection<Product> setProducts(@PathVariable("id") UUID categoryId, @RequestBody Set<Product> products) {
+//        productRepository.deleteByCategoryId(categoryId);
+//
+//        productRepository.findByCategoryIdAndIds(categoryId, products.stream().map(Product::getId).filter(Objects::nonNull).collect(toSet()));
+//
+//
+//        Set<UUID> uuids = products.stream().map(Product::getId).filter(Objects::nonNull).collect(toSet());
+//        Iterable<Product> toDelete = productRepository.findAll(product.categoryId.eq(categoryId).and(product.id.notIn(uuids)));
+//        productRepository.deleteInBatch(toDelete);
+//        productRepository.saveAll(products);
+//
+//
+//        Collection<Product> existing = productRepository.findByCategoryId(categoryId);
+//        existing.removeAll(products.stream().filter(product -> product.getId() != null).collect(toList()));
+//        productRepository.deleteInBatch(existing);
+//        productRepository.saveAll(products);
+//
+//        return productRepository.findByCategoryId(categoryId);
+//    }
 }
