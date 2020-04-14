@@ -1,9 +1,11 @@
 package com.example.datajpademo.repository;
 
 import com.example.datajpademo.model.Product;
+import com.example.datajpademo.model.QProduct;
 import com.example.datajpademo.repository.base.BaseJdbcRepository;
 import com.example.datajpademo.repository.base.BaseJinqRepository;
 import com.example.datajpademo.repository.base.BaseRepository;
+import com.example.datajpademo.repository.base.QuerydslCustomizer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
@@ -15,7 +17,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-public interface ProductRepository extends JpaRepository<Product, UUID>, QuerydslPredicateExecutor<Product>, BaseRepository, BaseJinqRepository, BaseJdbcRepository {
+public interface ProductRepository extends JpaRepository<Product, UUID>,
+        QuerydslPredicateExecutor<Product>, QuerydslCustomizer<QProduct>,
+        BaseRepository, BaseJinqRepository, BaseJdbcRepository {
 
     Collection<Product> findByCategoryId(@Param("categoryId") UUID categoryId);
 
