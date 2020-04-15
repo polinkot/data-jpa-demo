@@ -5,7 +5,6 @@ import com.example.datajpademo.repository.ProductRepository;
 import com.querydsl.core.types.Predicate;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.HttpStatus;
@@ -30,8 +29,8 @@ public class ProductController {
 
     @ApiOperation(value = "Получение всех")
     @GetMapping
-    public Page<Product> findAll(@QuerydslPredicate(root = Product.class) Predicate predicate, Pageable pageable) {
-        return repository.findAll(predicate, pageable);
+    public Collection<Product> findAll(@QuerydslPredicate(root = Product.class) Predicate predicate, Pageable pageable) {
+        return repository.findAll(predicate, pageable).getContent();
     }
 
     @ApiOperation(value = "Получение по id")
@@ -43,15 +42,14 @@ public class ProductController {
     @ApiOperation(value = "Создание")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UUID create(@RequestBody @Valid Product product) {
-        Product saved = repository.save(product);
-        return saved.getId();
+    public @Valid Product create(@RequestBody @Valid Product product) {
+        return repository.save(product);
     }
 
     @ApiOperation(value = "Обновление")
     @PutMapping
-    public void update(@RequestBody @Valid Product product) {
-        repository.save(product);
+    public @Valid Product update(@RequestBody @Valid Product product) {
+        return repository.save(product);
     }
 
     @ApiOperation(value = "Удаление")
@@ -105,14 +103,14 @@ public class ProductController {
     /*************** JDBC *******************/
 
     @GetMapping("/jdbcFindByName/{name}")
-    public List<Product> jdbcFindByName(@PathVariable("name") String name) {
+    public Collection<Product> jdbcFindByName(@PathVariable("name") String name) {
         return repository.jdbcFindByName(name);
     }
 
     /*************** Jinq *******************/
 
     @GetMapping("/jinqFindByName/{name}")
-    public List<Product> jinqFindByName(@PathVariable("name") String name) {
+    public Collection<Product> jinqFindByName(@PathVariable("name") String name) {
         return repository.jinqFindByName(name);
     }
 }

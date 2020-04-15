@@ -39,7 +39,7 @@ public interface ProductRepository extends JpaRepository<Product, UUID>,
     RowMapper<Product> PRODUCT_ROW_MAPPER = new BeanPropertyRowMapper<>(Product.class);
 
     default List<Product> jdbcFindByName(@Param("name") String name) {
-        return getJdbcTemplate().query("select * from assd.test_product p WHERE p.name = '" + name + "'", PRODUCT_ROW_MAPPER);
+        return getJdbcTemplate().query("select * from assd.test_product p WHERE p.name LIKE '%" + name + "%'", PRODUCT_ROW_MAPPER);
     }
 
     /*************** Jinq *******************/
