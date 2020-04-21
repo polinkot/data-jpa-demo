@@ -5,25 +5,25 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.sql.Timestamp;
 import java.util.UUID;
+
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "test_category", schema = "assd")
 public class Category {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = IDENTITY)
     private UUID id;
 
-    @Column
     private Timestamp ts;
-
-    @Column
     private String name;
 }
