@@ -11,8 +11,6 @@ import javax.persistence.Id;
 import java.sql.Timestamp;
 import java.util.UUID;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,7 +19,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class Category {
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue
     private UUID id;
 
     private Timestamp ts;
