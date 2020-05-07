@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -15,6 +16,8 @@ import java.util.Set;
 import java.util.UUID;
 
 import static com.example.datajpademo.config.AppConfig.UUID_PK_DEFAULT;
+import static java.util.Collections.emptySet;
+import static java.util.Optional.ofNullable;
 
 @JsonView(Basic.class)
 @Data
@@ -41,20 +44,14 @@ public class Country {
     @JsonView(Products.class)
     @JoinColumn(name = "country_id", updatable = false)
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<City> cities;
+    private Set<City> cities = new HashSet<>();
 
     public void setCities(Set<City> cities) {
-        if (this.cities != null) {
-            this.cities.clear();
-        }
-        cities.forEach(this::addCity);
+        this.cities.clear();
+        ofNullable(cities).orElse(emptySet()).forEach(this::addCity);
     }
 
-    public void addCity(City city) {
-        if (this.cities == null) {
-            this.cities = new HashSet<>();
-        }
-
+    public void addCity(@NonNull City city) {
         this.cities.add(city);
         city.setCountryId(this.id);
     }
