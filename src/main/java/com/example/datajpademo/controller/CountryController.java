@@ -3,6 +3,8 @@ package com.example.datajpademo.controller;
 import com.example.datajpademo.model.Country;
 import com.example.datajpademo.model.View.Basic;
 import com.example.datajpademo.model.View.Quick;
+import com.example.datajpademo.model.dto.CountryBigProjection;
+import com.example.datajpademo.model.dto.CountrySmallProjection;
 import com.example.datajpademo.repository.CountryRepository;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.querydsl.core.types.Predicate;
@@ -64,5 +66,25 @@ public class CountryController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable UUID id) {
         repository.deleteById(id);
+    }
+
+    /*************** Dynamic projections *******************/
+
+    @ApiOperation(value = "Получение всех. Динамические проекции.")
+    @GetMapping("/dynamic")
+    public List<Country> findBy(Pageable pageable) {
+        return repository.findBy(pageable, Country.class);
+    }
+
+    @ApiOperation(value = "Получение всех. Динамические проекции. Big")
+    @GetMapping("/dynamicBig")
+    public List<CountryBigProjection> findBy1(Pageable pageable) {
+        return repository.findBy(pageable, CountryBigProjection.class);
+    }
+
+    @ApiOperation(value = "Получение всех. Динамические проекции. Small")
+    @GetMapping("/dynamicSmall")
+    public List<CountrySmallProjection> findBy2(Pageable pageable) {
+        return repository.findBy(pageable, CountrySmallProjection.class);
     }
 }
