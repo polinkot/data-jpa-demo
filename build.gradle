@@ -26,7 +26,6 @@ def queryDslVersion = '4.2.2'
 
 repositories {
     mavenCentral()
-    maven { url 'http://oss.jfrog.org/artifactory/oss-snapshot-local/' }
 }
 
 dependencies {
@@ -39,10 +38,9 @@ dependencies {
 
     compile group: 'com.google.guava', name: 'guava', version: '28.2-jre'
 
-    compile group: 'io.springfox', name: 'springfox-swagger2', version: '3.0.0-SNAPSHOT'
-    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0-SNAPSHOT'
-//    compile group: 'io.springfox', name: 'springfox-data-rest', version: '3.0.0-SNAPSHOT'
-    compile group: 'io.springfox', name: 'springfox-spring-webmvc', version: '3.0.0-SNAPSHOT'
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.10.5'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.10.5'
+    compile group: 'io.springfox', name: 'springfox-spring-webmvc', version: '2.10.5'
 
     compile group: 'org.jinq', name: 'jinq-jpa', version: '1.8.29'
 
