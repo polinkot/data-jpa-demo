@@ -26,8 +26,5 @@ public class City {
     private UUID id;
 
     private String name;
-
-    @NotNull
-    @Column(name = "country_id", nullable = false, updatable = false)
     private UUID countryId;
 }

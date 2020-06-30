@@ -5,9 +5,9 @@ import com.example.datajpademo.model.View.Products;
 import com.example.datajpademo.model.View.Quick;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -16,11 +16,11 @@ import java.util.Set;
 import java.util.UUID;
 
 import static com.example.datajpademo.config.AppConfig.UUID_PK_DEFAULT;
-import static java.util.Collections.emptySet;
-import static java.util.Optional.ofNullable;
+import static javax.persistence.CascadeType.ALL;
 
 @JsonView(Basic.class)
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -41,18 +41,9 @@ public class Country {
 
     private Long area;
 
+    @Builder.Default
     @JsonView(Products.class)
-    @JoinColumn(name = "country_id", updatable = false)
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = ALL, orphanRemoval = true)
+    @JoinColumn(name = "countryId")
     private Set<City> cities = new HashSet<>();
-
-    public void setCities(Set<City> cities) {
-        this.cities.clear();
-        ofNullable(cities).orElse(emptySet()).forEach(this::addCity);
-    }
-
-    public void addCity(@NonNull City city) {
-        this.cities.add(city);
-        city.setCountryId(this.id);
-    }
 }
