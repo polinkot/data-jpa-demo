@@ -27,4 +27,7 @@ public class City {
 
     private String name;
     private UUID countryId;
+
+    @ColumnDefault("false")
+    private boolean isCapital;
 }

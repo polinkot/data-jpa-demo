@@ -1,5 +1,6 @@
 package com.example.datajpademo.model.dto;
 
+import com.example.datajpademo.model.City;
 import com.example.datajpademo.model.Country;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
@@ -20,6 +21,9 @@ public interface CountryBigProjection {
     interface CityProjection {
         String getName();
     }
+
+    @Value("#{@countryService.getCapitals(target)}")
+    Collection<City> getCapitals();
 
     @Value("#{new com.example.datajpademo.model.dto.CountryBigProjection.Values(target)}")
     Values getValues();
