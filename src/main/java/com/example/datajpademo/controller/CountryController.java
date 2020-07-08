@@ -1,8 +1,8 @@
 package com.example.datajpademo.controller;
 
 import com.example.datajpademo.model.Country;
-import com.example.datajpademo.model.View.Basic;
-import com.example.datajpademo.model.View.Quick;
+import com.example.datajpademo.model.dto.View.Basic;
+import com.example.datajpademo.model.dto.View.Quick;
 import com.example.datajpademo.model.dto.CountryBigProjection;
 import com.example.datajpademo.model.dto.CountrySmallProjection;
 import com.example.datajpademo.repository.CountryRepository;

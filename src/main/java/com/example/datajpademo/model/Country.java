@@ -1,8 +1,8 @@
 package com.example.datajpademo.model;
 
-import com.example.datajpademo.model.View.Basic;
-import com.example.datajpademo.model.View.Products;
-import com.example.datajpademo.model.View.Quick;
+import com.example.datajpademo.model.dto.View.Basic;
+import com.example.datajpademo.model.dto.View.Products;
+import com.example.datajpademo.model.dto.View.Quick;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
