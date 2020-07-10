@@ -1,11 +1,10 @@
 package com.example.datajpademo;
 
-import com.example.datajpademo.model.City;
-import com.example.datajpademo.model.Country;
-import com.example.datajpademo.model.Post;
-import com.example.datajpademo.model.PostComment;
+import com.example.datajpademo.model.*;
+import com.example.datajpademo.repository.CategoryRepository;
 import com.example.datajpademo.repository.CountryRepository;
 import com.example.datajpademo.repository.PostRepository;
+import com.example.datajpademo.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -13,12 +12,19 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.HashSet;
-import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 import static java.util.Arrays.asList;
 
 @SpringBootApplication
 public class DataJpaDemoApplication implements ApplicationRunner {
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Autowired
     private CountryRepository countryRepository;
@@ -32,38 +38,55 @@ public class DataJpaDemoApplication implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-//        Post post = Post.builder().title("First post").comments(
-//                asList(PostComment.builder().review("My first review").build(),
-//                        PostComment.builder().review("My second review").build(),
-//                        PostComment.builder().review("My third review").build()
-//                )).build();
-//        postRepository.save(post);
-//
-//        List<Country> countries = asList(
-//                Country.builder().name("India").shortName("IN").build(),
-//                Country.builder().name("Brazil").shortName("BR").build(),
-//                Country.builder().name("USA").shortName("USA").build(),
-//                Country.builder().name("Italy").shortName("IT")
-//                        .cities(new HashSet<>(asList(new City(null, "Rome", null),
-//                                new City(null, "Milan", null),
-//                                new City(null, "Bari", null))))
-//                        .build());
-//        countryRepository.saveAll(countries);
+        Post post = Post.builder().title("First post").comments(
+                asList(buildPostComment("My first review"),
+                        buildPostComment("My second review"),
+                        buildPostComment("My third review")
+                )).build();
+        postRepository.save(post);
 
-//        INSERT INTO country (id, name, short_name) VALUES ('19b9fb61-114b-42c6-9000-080f2dfda1f7', 'India', 'IN');
-//        INSERT INTO country (id, name, short_name) VALUES ('ac812959-5c02-4228-926f-d03faf4604dc', 'Brazil', 'BR');
-//        INSERT INTO country (id, name, short_name) VALUES ('570f7920-653a-4884-8de5-338884d26fdc', 'USA', 'USA');
-//        INSERT INTO country (id, name, short_name) VALUES ('223b0d1e-9997-41a2-be0a-dd025faddb6e', 'Italy', 'IT');
-//
-//        INSERT INTO city (name, country_id) VALUES ('Rome', '223b0d1e-9997-41a2-be0a-dd025faddb6e');
-//        INSERT INTO city (name, country_id) VALUES ('Milan', '223b0d1e-9997-41a2-be0a-dd025faddb6e');
-//        INSERT INTO city (name, country_id) VALUES ('Bari', '223b0d1e-9997-41a2-be0a-dd025faddb6e');
-//
-//        INSERT INTO category (id, name) VALUES ('19b9fb61-114b-42c6-9000-080f2dfda1f8', 'category1');
-//        INSERT INTO category (id, name) VALUES ('ac812959-5c02-4228-926f-d03faf4604d8', 'category2');
-//
-//        INSERT INTO product (name, category_id) VALUES ('product1', '19b9fb61-114b-42c6-9000-080f2dfda1f8');
-//        INSERT INTO product (name, category_id) VALUES ('product2', '19b9fb61-114b-42c6-9000-080f2dfda1f8');
-//        INSERT INTO product (name, category_id) VALUES ('product3', 'ac812959-5c02-4228-926f-d03faf4604d8');
+        countryRepository.saveAll(asList(
+                buildCountry("India", "IN"),
+                buildCountry("Brazil", "BR"),
+                buildCountry("USA", "USA"),
+                buildCountry("Italy", "IT",
+                        new HashSet<>(asList(
+                                buildCity("Rome"),
+                                buildCity("Milan"),
+                                buildCity("Bari")))
+                )));
+
+        Category category1 = buildCategory("category1");
+        Category category2 = buildCategory("category2");
+        categoryRepository.saveAll(asList(category1, category2));
+
+        productRepository.saveAll(asList(
+                buildProduct("product1", category1.getId()),
+                buildProduct("product2", category1.getId()),
+                buildProduct("product3", category2.getId())));
+    }
+
+    private Category buildCategory(String name) {
+        return Category.builder().name(name).build();
+    }
+
+    private Product buildProduct(String name, UUID categoryId) {
+        return Product.builder().name(name).categoryId(categoryId).build();
+    }
+
+    private PostComment buildPostComment(String review) {
+        return PostComment.builder().review(review).build();
+    }
+
+    private City buildCity(String name) {
+        return City.builder().name(name).build();
+    }
+
+    private Country buildCountry(String name, String shortName) {
+        return buildCountry(name, shortName, new HashSet<>());
+    }
+
+    private Country buildCountry(String name, String shortName, Set<City> cities) {
+        return Country.builder().name(name).shortName(shortName).cities(cities).build();
     }
 }

@@ -1,6 +1,7 @@
 package com.example.datajpademo.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -17,6 +18,7 @@ import static com.example.datajpademo.config.AppConfig.UUID_PK_DEFAULT;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 public class City {
 
