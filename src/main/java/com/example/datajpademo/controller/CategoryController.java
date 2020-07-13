@@ -2,6 +2,7 @@ package com.example.datajpademo.controller;
 
 import com.example.datajpademo.model.Category;
 import com.example.datajpademo.model.Product;
+import com.example.datajpademo.model.dto.CategoryWithPageableProductsView;
 import com.example.datajpademo.model.dto.CategoryWithProductsView;
 import com.example.datajpademo.repository.CategoryRepository;
 import com.example.datajpademo.repository.ProductRepository;
@@ -9,14 +10,12 @@ import com.querydsl.core.types.Predicate;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -73,6 +72,15 @@ public class CategoryController {
     @GetMapping("/{id}/withProducts")
     public CategoryWithProductsView findByIdWithProducts(@PathVariable("id") UUID categoryId) {
         return repository.findById(categoryId, CategoryWithProductsView.class).stream().findFirst().orElse(null);
+    }
+
+    @ApiOperation(value = "Получение по id с постраничным списком продуктов")
+    @GetMapping("/{id}/withPageableProducts")
+    public CategoryWithPageableProductsView findByIdWithPageableProducts(@PathVariable("id") UUID id, Pageable productsPageable) {
+        return repository.findById(id, CategoryWithPageableProductsView.class).stream()
+                .peek(category -> category.setProducts(productRepository.findByCategoryId(id, productsPageable)))
+                .findFirst()
+                .orElse(null);
     }
 
     /************************* Get products separately ***************************/
