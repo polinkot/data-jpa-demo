@@ -2,12 +2,14 @@ package com.example.datajpademo.controller;
 
 import com.example.datajpademo.model.Category;
 import com.example.datajpademo.model.Product;
+import com.example.datajpademo.model.dto.CategoryWithProductsView;
 import com.example.datajpademo.repository.CategoryRepository;
 import com.example.datajpademo.repository.ProductRepository;
 import com.querydsl.core.types.Predicate;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -64,7 +67,15 @@ public class CategoryController {
         repository.deleteById(id);
     }
 
-    /************************* Get products ***************************/
+    /************************* With products ***************************/
+
+    @ApiOperation(value = "Получение по id со списком продуктов (2 продукта)")
+    @GetMapping("/{id}/withProducts")
+    public CategoryWithProductsView findByIdWithProducts(@PathVariable("id") UUID categoryId) {
+        return repository.findById(categoryId, CategoryWithProductsView.class).stream().findFirst().orElse(null);
+    }
+
+    /************************* Get products separately ***************************/
 
     /** 1. In Product controller with @QuerydslPredicate(root = Product.class) Predicate predicate **/
     /**
@@ -72,24 +83,24 @@ public class CategoryController {
      **/
 
     @GetMapping("/{id}/products")
-    public Collection<Product> getProducts(@PathVariable("id") UUID categoryId) {
+    public List<Product> getProducts(@PathVariable("id") UUID categoryId, Pageable pageable) {
         /** 2. In repository repository.findByCategoryId(categoryId) **/
-        return productRepository.findByCategoryId(categoryId);
+        return productRepository.findByCategoryId(categoryId, pageable);
     }
 
     @GetMapping("/{id}/productsDsl")
-    public Iterable<Product> findProductsDsl(@PathVariable("id") UUID categoryId) {
+    public Iterable<Product> findProductsDsl(@PathVariable("id") UUID categoryId, Pageable pageable) {
         /** 3. With DSL repository.findAll(product.categoryId.eq(categoryId)) **/
-        return productRepository.findAll(product.categoryId.eq(categoryId));
+        return productRepository.findAll(product.categoryId.eq(categoryId), pageable);
     }
 
     /************************* Set products ***************************/
 
     @PostMapping("/{id}/products")
-    public Collection<Product> setProducts(@PathVariable("id") UUID id, @RequestBody Set<Product> products) {
+    public List<Product> setProducts(@PathVariable("id") UUID id, @RequestBody Set<Product> products) {
         Set<UUID> productIds = products.stream().map(Product::getId).collect(toSet());
 
-        Collection<Product> existing = productRepository.findByCategoryId(id);
+        List<Product> existing = productRepository.findByCategoryId(id);
         existing.removeIf(product -> productIds.contains(product.getId()));
         productRepository.deleteInBatch(existing);
 
