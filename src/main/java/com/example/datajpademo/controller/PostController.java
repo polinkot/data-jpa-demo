@@ -47,6 +47,7 @@ public class PostController {
     @ApiOperation(value = "Обновление")
     @PutMapping
     public @Valid Post update(@RequestBody @Valid Post post) {
+        post.getComments().forEach(comment -> comment.setPost(post));
         return repository.save(post);
     }
 
