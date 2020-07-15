@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 
 import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
 import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Data
 @NoArgsConstructor
@@ -20,9 +21,8 @@ import static javax.persistence.FetchType.LAZY;
 @Builder
 @Entity
 public class PostComment {
-
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     private String review;

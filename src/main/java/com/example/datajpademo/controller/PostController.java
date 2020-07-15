@@ -40,6 +40,7 @@ public class PostController {
     @PostMapping
     @ResponseStatus(CREATED)
     public @Valid Post create(@RequestBody @Valid Post post) {
+        post.getComments().forEach(comment -> comment.setPost(post));
         return repository.save(post);
     }
 
