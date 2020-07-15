@@ -1,15 +1,22 @@
 package com.example.datajpademo.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+import static javax.persistence.CascadeType.ALL;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Entity
 public class Post {
@@ -21,7 +28,16 @@ public class Post {
     private String title;
 
     @Builder.Default
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "post_id")
-    private List<PostComment> comments = new ArrayList<>();
+    @OneToMany(mappedBy = "post", cascade = ALL, orphanRemoval = true)
+    private final List<PostComment> comments = new ArrayList<>();
+
+    public void addComment(PostComment comment) {
+        comments.add(comment);
+        comment.setPost(this);
+    }
+
+    public void removeComment(PostComment comment) {
+        comments.remove(comment);
+        comment.setPost(null);
+    }
 }

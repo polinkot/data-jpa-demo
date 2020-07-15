@@ -38,12 +38,12 @@ public class DataJpaDemoApplication implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        Post post = Post.builder().title("First post").comments(
-                asList(buildPostComment("My first review"),
-                        buildPostComment("My second review"),
-                        buildPostComment("My third review")
-                )).build();
-        postRepository.save(post);
+        Post post = buildPost("First post");
+        asList(buildPostComment("First comment"),
+                buildPostComment("Second comment"),
+                buildPostComment("Third comment")
+        ).forEach(post::addComment);
+        postRepository.saveAll(asList(post, buildPost("Second post")));
 
         countryRepository.saveAll(asList(
                 buildCountry("India", "IN"),
@@ -75,12 +75,12 @@ public class DataJpaDemoApplication implements ApplicationRunner {
         return Product.builder().name(name).categoryId(categoryId).build();
     }
 
-    private PostComment buildPostComment(String review) {
-        return PostComment.builder().review(review).build();
+    private Post buildPost(String title) {
+        return Post.builder().title(title).build();
     }
 
-    private City buildCity(String name) {
-        return City.builder().name(name).build();
+    private PostComment buildPostComment(String review) {
+        return PostComment.builder().review(review).build();
     }
 
     private Country buildCountry(String name, String shortName) {
@@ -89,5 +89,9 @@ public class DataJpaDemoApplication implements ApplicationRunner {
 
     private Country buildCountry(String name, String shortName, Set<City> cities) {
         return Country.builder().name(name).shortName(shortName).cities(cities).build();
+    }
+
+    private City buildCity(String name) {
+        return City.builder().name(name).build();
     }
 }
