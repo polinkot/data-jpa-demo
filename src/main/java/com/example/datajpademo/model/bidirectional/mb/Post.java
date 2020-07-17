@@ -1,15 +1,14 @@
-package com.example.datajpademo.model;
+package com.example.datajpademo.model.bidirectional.mb;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static javax.persistence.CascadeType.ALL;
@@ -20,6 +19,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(name = "post_mb")
 public class Post {
 
     @Id
@@ -28,9 +28,14 @@ public class Post {
 
     private String title;
 
+    @JsonManagedReference
     @Builder.Default
     @OneToMany(mappedBy = "post", cascade = ALL, orphanRemoval = true)
-    private final List<PostComment> comments = new ArrayList<>();
+    private List<PostComment> comments = new ArrayList<>();
+
+    public void addComments(Collection<PostComment> comments) {
+        comments.forEach(this::addComment);
+    }
 
     public void addComment(PostComment comment) {
         comments.add(comment);

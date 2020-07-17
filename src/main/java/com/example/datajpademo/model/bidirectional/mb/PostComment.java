@@ -1,17 +1,13 @@
-package com.example.datajpademo.model;
+package com.example.datajpademo.model.bidirectional.mb;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
-import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -20,6 +16,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(name = "post_comment_mb")
 public class PostComment {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -27,7 +24,7 @@ public class PostComment {
 
     private String review;
 
-    @JsonProperty(access = WRITE_ONLY)
+    @JsonBackReference
     @ManyToOne(fetch = LAZY)
     private Post post;
 }
