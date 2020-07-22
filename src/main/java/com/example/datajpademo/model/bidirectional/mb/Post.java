@@ -19,7 +19,6 @@ import static javax.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "post_mb")
 public class Post {
 
     @Id
