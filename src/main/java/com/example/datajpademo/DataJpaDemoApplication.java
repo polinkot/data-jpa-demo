@@ -4,11 +4,14 @@ import com.example.datajpademo.model.Category;
 import com.example.datajpademo.model.City;
 import com.example.datajpademo.model.Country;
 import com.example.datajpademo.model.Product;
+import com.example.datajpademo.model.bidirectional.identityinfo.Catalog;
+import com.example.datajpademo.model.bidirectional.identityinfo.Item;
 import com.example.datajpademo.model.bidirectional.mb.Post;
 import com.example.datajpademo.model.bidirectional.mb.PostComment;
 import com.example.datajpademo.repository.CategoryRepository;
 import com.example.datajpademo.repository.CountryRepository;
 import com.example.datajpademo.repository.ProductRepository;
+import com.example.datajpademo.repository.bidirectional.identityinfo.CatalogRepository;
 import com.example.datajpademo.repository.bidirectional.mb.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -37,6 +40,9 @@ public class DataJpaDemoApplication implements ApplicationRunner {
     @Autowired
     private PostRepository postMbRepository;
 
+    @Autowired
+    private CatalogRepository catalogRepository;
+
     public static void main(String[] args) {
         SpringApplication.run(DataJpaDemoApplication.class, args);
     }
@@ -49,6 +55,13 @@ public class DataJpaDemoApplication implements ApplicationRunner {
                         buildPostCommentMb("Second comment"),
                         buildPostCommentMb("Third comment")));
         postMbRepository.saveAll(asList(postMb, buildPostMb("Second post")));
+
+        Catalog catalog = buildCatalog("First catalog");
+        catalog.addItems(
+                asList(buildItem("First item"),
+                        buildItem("Second item"),
+                        buildItem("Third item")));
+        catalogRepository.saveAll(asList(catalog, buildCatalog("Second catalog")));
 
         countryRepository.saveAll(asList(
                 buildCountry("India", "IN"),
@@ -86,6 +99,14 @@ public class DataJpaDemoApplication implements ApplicationRunner {
 
     private PostComment buildPostCommentMb(String review) {
         return PostComment.builder().review(review).build();
+    }
+
+    private Catalog buildCatalog(String name) {
+        return Catalog.builder().name(name).build();
+    }
+
+    private Item buildItem(String name) {
+        return Item.builder().name(name).build();
     }
 
     private Country buildCountry(String name, String shortName) {
