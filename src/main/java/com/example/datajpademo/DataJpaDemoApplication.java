@@ -6,8 +6,8 @@ import com.example.datajpademo.model.Country;
 import com.example.datajpademo.model.Product;
 import com.example.datajpademo.model.bidirectional.identityinfo.Catalog;
 import com.example.datajpademo.model.bidirectional.identityinfo.Item;
+import com.example.datajpademo.model.bidirectional.mb.Comment;
 import com.example.datajpademo.model.bidirectional.mb.Post;
-import com.example.datajpademo.model.bidirectional.mb.PostComment;
 import com.example.datajpademo.repository.CategoryRepository;
 import com.example.datajpademo.repository.CountryRepository;
 import com.example.datajpademo.repository.ProductRepository;
@@ -38,7 +38,7 @@ public class DataJpaDemoApplication implements ApplicationRunner {
     private CountryRepository countryRepository;
 
     @Autowired
-    private PostRepository postMbRepository;
+    private PostRepository postRepository;
 
     @Autowired
     private CatalogRepository catalogRepository;
@@ -49,12 +49,12 @@ public class DataJpaDemoApplication implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        Post postMb = buildPostMb("First post");
-        postMb.addComments(
-                asList(buildPostCommentMb("First comment"),
-                        buildPostCommentMb("Second comment"),
-                        buildPostCommentMb("Third comment")));
-        postMbRepository.saveAll(asList(postMb, buildPostMb("Second post")));
+        Post post = buildPost("First post");
+        post.addComments(
+                asList(buildComment("First comment"),
+                        buildComment("Second comment"),
+                        buildComment("Third comment")));
+        postRepository.saveAll(asList(post, buildPost("Second post")));
 
         Catalog catalog = buildCatalog("First catalog");
         catalog.addItems(
@@ -93,12 +93,12 @@ public class DataJpaDemoApplication implements ApplicationRunner {
         return Product.builder().name(name).categoryId(categoryId).build();
     }
 
-    private Post buildPostMb(String title) {
+    private Post buildPost(String title) {
         return Post.builder().title(title).build();
     }
 
-    private PostComment buildPostCommentMb(String review) {
-        return PostComment.builder().review(review).build();
+    private Comment buildComment(String review) {
+        return Comment.builder().review(review).build();
     }
 
     private Catalog buildCatalog(String name) {

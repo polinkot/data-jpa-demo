@@ -1,7 +1,7 @@
 package com.example.datajpademo.controller.bidirectional.mb;
 
 import com.example.datajpademo.model.bidirectional.mb.Post;
-import com.example.datajpademo.model.bidirectional.mb.PostComment;
+import com.example.datajpademo.model.dto.CommentProjection;
 import com.example.datajpademo.repository.bidirectional.mb.PostRepository;
 import com.querydsl.core.types.Predicate;
 import io.swagger.annotations.ApiOperation;
@@ -16,7 +16,7 @@ import java.util.List;
 import static java.util.Optional.ofNullable;
 import static org.springframework.http.HttpStatus.CREATED;
 
-@RequestMapping("/postsMb")
+@RequestMapping("/posts")
 @RestController
 public class PostController {
     @Autowired
@@ -56,7 +56,7 @@ public class PostController {
     }
 
     @GetMapping("/comments")
-    public List<PostComment> findComments() {
-        return repository.findComments();
+    public List<CommentProjection> findComments() {
+        return repository.findComments(CommentProjection.class);
     }
 }

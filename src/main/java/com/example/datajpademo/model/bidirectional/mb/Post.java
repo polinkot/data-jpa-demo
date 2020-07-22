@@ -6,7 +6,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -30,18 +33,18 @@ public class Post {
     @JsonManagedReference
     @Builder.Default
     @OneToMany(mappedBy = "post", cascade = ALL, orphanRemoval = true)
-    private List<PostComment> comments = new ArrayList<>();
+    private List<Comment> comments = new ArrayList<>();
 
-    public void addComments(Collection<PostComment> comments) {
+    public void addComments(Collection<Comment> comments) {
         comments.forEach(this::addComment);
     }
 
-    public void addComment(PostComment comment) {
+    public void addComment(Comment comment) {
         comments.add(comment);
         comment.setPost(this);
     }
 
-    public void removeComment(PostComment comment) {
+    public void removeComment(Comment comment) {
         comments.remove(comment);
         comment.setPost(null);
     }
