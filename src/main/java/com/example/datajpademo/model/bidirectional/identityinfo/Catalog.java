@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,7 +37,7 @@ public class Catalog {
     @OneToMany(mappedBy = "catalog", cascade = ALL, orphanRemoval = true)
     private List<Item> items = new ArrayList<>();
 
-    public void addItems(Collection<Item> items) {
+    public void addItems(@NotNull Collection<Item> items) {
         items.forEach(this::addItem);
     }
 

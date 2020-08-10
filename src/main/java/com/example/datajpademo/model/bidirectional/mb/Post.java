@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,7 +36,7 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
-    public void addComments(Collection<Comment> comments) {
+    public void addComments(@NotNull Collection<Comment> comments) {
         comments.forEach(this::addComment);
     }
 
