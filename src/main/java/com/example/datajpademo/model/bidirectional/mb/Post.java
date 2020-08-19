@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static javax.persistence.CascadeType.ALL;
-import static javax.persistence.GenerationType.IDENTITY;
+import static javax.persistence.GenerationType.SEQUENCE;
 
 @Data
 @NoArgsConstructor
@@ -26,7 +26,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class Post {
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(generator = "post_sequence", strategy = SEQUENCE)
     private Long id;
 
     private String title;

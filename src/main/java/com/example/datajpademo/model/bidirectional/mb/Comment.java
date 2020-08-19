@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 import static javax.persistence.FetchType.LAZY;
-import static javax.persistence.GenerationType.IDENTITY;
+import static javax.persistence.GenerationType.SEQUENCE;
 
 @Data
 @NoArgsConstructor
@@ -18,7 +18,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Entity
 public class Comment {
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(generator = "comment_sequence", strategy = SEQUENCE)
+    @SequenceGenerator(name = "comment_sequence", allocationSize = 10)
     private Long id;
 
     private String review;
