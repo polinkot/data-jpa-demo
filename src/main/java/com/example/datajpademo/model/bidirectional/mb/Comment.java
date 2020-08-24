@@ -5,8 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+
+import java.sql.Timestamp;
 
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.SEQUENCE;
@@ -27,4 +31,12 @@ public class Comment {
     @JsonBackReference
     @ManyToOne(fetch = LAZY)
     private Post post;
+
+    @Column(name = "created", updatable = false)
+    @CreationTimestamp
+    private Timestamp created;
+
+    @Column(name = "modified")
+    @UpdateTimestamp
+    private Timestamp modified;
 }
