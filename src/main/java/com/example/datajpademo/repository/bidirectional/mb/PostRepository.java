@@ -8,6 +8,6 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Long>, QuerydslPredicateExecutor<Post> {
-    @Query("select c from Comment c ")
+    @Query("select c from Comment c join fetch c.post p ")
     <T> List<T> findComments(Class<T> tClass);
 }
