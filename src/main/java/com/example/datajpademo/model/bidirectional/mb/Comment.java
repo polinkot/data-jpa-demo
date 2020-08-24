@@ -32,11 +32,10 @@ public class Comment {
     @ManyToOne(fetch = LAZY)
     private Post post;
 
-    @Column(name = "created", updatable = false)
     @CreationTimestamp
+    @Column(updatable = false)
     private Timestamp created;
 
-    @Column(name = "modified")
     @UpdateTimestamp
     private Timestamp modified;
 }
