@@ -33,6 +33,10 @@
         <appender-ref ref="RollingFile"/>
     </logger>
 
+<!--    <logger name="org.hibernate.SQL" level="debug">-->
+<!--        <appender-ref ref="RollingFile"/>-->
+<!--    </logger>-->
+
     <logger name="org.hibernate.SQL_SLOW" level="info"/>
 
 </configuration>
