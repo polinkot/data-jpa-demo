@@ -36,6 +36,9 @@
 <!--    <logger name="org.hibernate.SQL" level="debug">-->
 <!--        <appender-ref ref="RollingFile"/>-->
 <!--    </logger>-->
+<!--    <logger name="org.hibernate.type.descriptor.sql" level="trace">-->
+<!--        <appender-ref ref="RollingFile"/>-->
+<!--    </logger>-->
 
     <logger name="org.hibernate.SQL_SLOW" level="info"/>
 
