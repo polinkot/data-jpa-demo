@@ -34,50 +34,33 @@ public class InitService {
     private PostRepository postRepository;
 
     public void init() {
+        Post post = buildPost("First post");
+        post.addComments(
+                asList(buildComment("First comment"),
+                        buildComment("Second comment"),
+                        buildComment("Third comment")));
+        postRepository.saveAll(asList(post, buildPost("Second post")));
 
-//        for (int i = 0; i < 300; i++) {
-            Post post = buildPost("First post" + System.currentTimeMillis());
-            post.addComments(
-                    asList(buildComment("First comment"),
-                            buildComment("Second comment"),
-                            buildComment("Second comment"),
-                            buildComment("Second comment"),
-                            buildComment("Second comment"),
-                            buildComment("Third comment")));
-            Post post3 = buildPost("3 post" + System.currentTimeMillis());
-            post3.addComments(
-                    asList(buildComment("3 comment"),
-                            buildComment("3 comment"),
-                            buildComment("3 comment"),
-                            buildComment("3 comment"),
-                            buildComment("3 comment")));
-            postRepository.saveAll(asList(post, buildPost("Second post" + System.currentTimeMillis()), post3));
-//        }
+        countryRepository.saveAll(asList(
+                buildCountry("India", "IN"),
+                buildCountry("Brazil", "BR"),
+                buildCountry("USA", "USA"),
+                buildCountry("Italy", "IT",
+                        new HashSet<>(asList(
+                                buildCity("Rome"),
+                                buildCity("Milan"),
+                                buildCity("Bari")))
+                )));
 
-//        countryRepository.saveAll(asList(
-//                buildCountry("India", "IN"),
-//                buildCountry("Brazil", "BR"),
-//                buildCountry("USA", "USA", new HashSet<>(asList(
-//                        buildCity("1"),
-//                        buildCity("2"),
-//                        buildCity("3")))
-//                ),
-//                buildCountry("Italy", "IT",
-//                        new HashSet<>(asList(
-//                                buildCity("Rome"),
-//                                buildCity("Milan"),
-//                                buildCity("Bari")))
-//                )));
-//
-//        Category category1 = buildCategory("category1");
-//        Category category2 = buildCategory("category2");
-//        categoryRepository.saveAll(asList(category1, category2));
-//
-//        productRepository.saveAll(asList(
-//                buildProduct("product1", category1.getId()),
-//                buildProduct("product2", category1.getId()),
-//                buildProduct("product3", category1.getId()),
-//                buildProduct("product4", category2.getId())));
+        Category category1 = buildCategory("category1");
+        Category category2 = buildCategory("category2");
+        categoryRepository.saveAll(asList(category1, category2));
+
+        productRepository.saveAll(asList(
+                buildProduct("product1", category1.getId()),
+                buildProduct("product2", category1.getId()),
+                buildProduct("product3", category1.getId()),
+                buildProduct("product4", category2.getId())));
     }
 
     private Category buildCategory(String name) {
