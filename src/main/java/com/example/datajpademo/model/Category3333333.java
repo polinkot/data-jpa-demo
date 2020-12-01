@@ -19,7 +19,7 @@ import static com.example.datajpademo.config.AppConfig.UUID_PK_DEFAULT;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Category2222 {
+public class Category3333333 {
 
     @Id
     @GeneratedValue
@@ -27,5 +27,5 @@ public class Category2222 {
     private UUID id;
 
     private Timestamp tsssssss;
-    private String nnnnn;
+    private String mmmmmmm;
 }
