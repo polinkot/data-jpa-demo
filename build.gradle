@@ -37,6 +37,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
     compile group: 'com.google.guava', name: 'guava', version: '28.2-jre'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
+
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.3'
 
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.10.5'
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.10.5'

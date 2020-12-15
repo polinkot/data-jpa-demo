@@ -1,0 +1,20 @@
+[
+  {
+    "_class": "com.example.datajpademo.model.bidirectional.mb.Post",
+    "title": "Post example from data.json",
+    "comments": [
+      {
+        "_class": "com.example.datajpademo.model.bidirectional.mb.Comment",
+        "review": "Comment 88888. Example from data.json"
+      },
+      {
+        "_class": "com.example.datajpademo.model.bidirectional.mb.Comment",
+        "review": "Comment 54435. Example from data.json"
+      },
+      {
+        "_class": "com.example.datajpademo.model.bidirectional.mb.Comment",
+        "review": "Comment 66778. Example from data.json"
+      }
+    ]
+  }
+]

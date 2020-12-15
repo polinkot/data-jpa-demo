@@ -1,10 +1,7 @@
 package com.example.datajpademo.model.bidirectional.mb;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -20,7 +17,6 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @AllArgsConstructor
 @Builder
 @Entity
-
 @Table(name = "post", uniqueConstraints = @UniqueConstraint(name = "title_uq", columnNames = "title"))
 
 public class Post {
@@ -31,6 +27,7 @@ public class Post {
 
     private String title;
 
+    @ToString.Exclude
     @JsonManagedReference
     @Builder.Default
     @OneToMany(mappedBy = "post", cascade = ALL, orphanRemoval = true)
