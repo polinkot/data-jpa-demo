@@ -78,7 +78,7 @@ public class CategoryController {
     @GetMapping("/{id}/withPageableProducts")
     public CategoryWithPageableProductsView findByIdWithPageableProducts(@PathVariable("id") UUID id, Pageable productsPageable) {
         return repository.findById(id, CategoryWithPageableProductsView.class).stream()
-                .peek(category -> category.setProducts(productRepository.findByCategoryId(id, productsPageable)))
+                .peek(category -> category.getProducts().addAll(productRepository.findByCategoryId(id, productsPageable)))
                 .findFirst()
                 .orElse(null);
     }
