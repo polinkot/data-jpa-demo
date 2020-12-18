@@ -1,11 +1,12 @@
 package com.example.datajpademo.controller;
 
 import com.example.datajpademo.model.Country;
-import com.example.datajpademo.model.dto.View.Basic;
-import com.example.datajpademo.model.dto.View.Quick;
 import com.example.datajpademo.model.dto.CountryBigProjection;
 import com.example.datajpademo.model.dto.CountrySmallProjection;
+import com.example.datajpademo.model.dto.View.Basic;
+import com.example.datajpademo.model.dto.View.Quick;
 import com.example.datajpademo.repository.CountryRepository;
+import com.example.datajpademo.service.CountryService;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.querydsl.core.types.Predicate;
 import io.swagger.annotations.ApiOperation;
@@ -24,6 +25,9 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RequestMapping("/countries")
 @RestController
 public class CountryController {
+    @Autowired
+    private CountryService service;
+
     @Autowired
     private CountryRepository repository;
 
@@ -66,6 +70,15 @@ public class CountryController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable UUID id) {
         repository.deleteById(id);
+    }
+
+    /*************** By example *******************/
+    //https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#query-by-example
+
+    @ApiOperation(value = "By example")
+    @GetMapping("/byExapmle")
+    public List<Country> findByexample(Country country) {
+        return service.findByExample(country);
     }
 
     /*************** Dynamic projections *******************/

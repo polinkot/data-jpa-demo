@@ -69,7 +69,7 @@ public class InitService {
                 buildCountry("India", "IN"),
                 buildCountry("Brazil", "BR"),
                 buildCountry("USA", "USA",
-                        iterate(0, n -> n).limit(20).map(n -> buildCity(randomAlphanumeric(10))).collect(toSet())
+                        iterate(0, n -> n).limit(4).map(n -> buildCity(randomAlphanumeric(10))).collect(toSet())
                 ),
                 buildCountry("Italy", "IT",
                         new HashSet<>(asList(
