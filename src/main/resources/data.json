@@ -16,5 +16,15 @@
         "review": "Comment 66778. Example from data.json"
       }
     ]
+  },
+  {
+    "_class": "com.example.datajpademo.model.Country",
+    "name": "Country example from data.json",
+    "cities": [
+      {
+        "_class": "com.example.datajpademo.model.City",
+        "name": "City example from data.json"
+      }
+    ]
   }
 ]
