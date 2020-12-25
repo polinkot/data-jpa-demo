@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.UUID;
 
+import static com.example.datajpademo.config.AppConfig.UUID_PK_DEFAULT;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,6 +22,7 @@ public class City {
 
     @Id
     @GeneratedValue
+    @ColumnDefault(UUID_PK_DEFAULT)
     private UUID id;
 
     private String name;

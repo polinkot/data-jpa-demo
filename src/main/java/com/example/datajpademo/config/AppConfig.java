@@ -15,6 +15,12 @@ import org.springframework.data.repository.init.Jackson2RepositoryPopulatorFacto
 @Configuration
 public class AppConfig {
 
+    //POSTGRES
+    public static final String UUID_PK_DEFAULT = "uuid_generate_v4()";
+
+    //H2
+// public static final String UUID_PK_DEFAULT = "random_uuid()";
+
     //populate DB from code
     @Bean
     public CommandLineRunner demo(InitService initService) {

@@ -2,6 +2,8 @@ package com.example.datajpademo.model.bidirectional.mb;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -10,7 +12,6 @@ import java.util.Collection;
 import java.util.List;
 
 import static javax.persistence.CascadeType.ALL;
-import static javax.persistence.GenerationType.SEQUENCE;
 
 @Data
 @NoArgsConstructor
@@ -22,7 +23,16 @@ import static javax.persistence.GenerationType.SEQUENCE;
 public class Post {
 
     @Id
-    @GeneratedValue(generator = "post_sequence", strategy = SEQUENCE)
+    @GeneratedValue(generator = "sequence-generator")
+    @GenericGenerator(
+            name = "sequence-generator",
+            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+            parameters = {
+                    @Parameter(name = "sequence_name", value = "post_sequence"),
+                    @Parameter(name = "initial_value", value = "4"),
+                    @Parameter(name = "increment_size", value = "1")
+            }
+    )
     private Long id;
 
     private String title;
