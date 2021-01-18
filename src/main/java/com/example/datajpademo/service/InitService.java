@@ -88,7 +88,7 @@ public class InitService {
                 buildProduct("product1", category1.getId()),
                 buildProduct("product2", category1.getId()),
                 buildProduct("product3", category1.getId()),
-                buildProduct("product4", category2.getId())));
+                buildProduct("product35", category2.getId())));
     }
 
     private Category buildCategory(String name) {

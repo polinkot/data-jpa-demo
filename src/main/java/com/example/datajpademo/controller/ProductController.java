@@ -2,6 +2,7 @@ package com.example.datajpademo.controller;
 
 import com.example.datajpademo.model.Product;
 import com.example.datajpademo.repository.ProductRepository;
+import com.example.datajpademo.service.ProductService;
 import com.querydsl.core.types.Predicate;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ import static java.util.Optional.ofNullable;
 @RequestMapping("/products")
 @RestController
 public class ProductController {
+    @Autowired
+    private ProductService service;
 
     @Autowired
     private ProductRepository repository;
@@ -93,18 +96,27 @@ public class ProductController {
         return repository.nativeFindByName(name);
     }
 
-    /*************** DSL *******************/
-
-    @GetMapping("/dslFindByName/{name}")
-    public Iterable<Product> dslFindByName(@PathVariable("name") String name) {
-        return repository.findAll(product.name.containsIgnoreCase(name));
-    }
-
     /*************** JDBC *******************/
 
     @GetMapping("/jdbcFindByName/{name}")
     public Collection<Product> jdbcFindByName(@PathVariable("name") String name) {
         return repository.jdbcFindByName(name);
+    }
+
+    /*************** By example *******************/
+    //https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#query-by-example
+
+    @ApiOperation(value = "By example")
+    @GetMapping("/byExapmle")
+    public List<Product> findByExample(Product product) {
+        return service.findByExample(product);
+    }
+
+    /*************** DSL *******************/
+
+    @GetMapping("/dslFindByName/{name}")
+    public Iterable<Product> dslFindByName(@PathVariable("name") String name) {
+        return repository.findAll(product.name.containsIgnoreCase(name));
     }
 
     /*************** Jinq *******************/
