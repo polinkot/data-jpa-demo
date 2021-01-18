@@ -87,7 +87,7 @@ public class CategoryController {
 
     /** 1. In Product controller with @QuerydslPredicate(root = Product.class) Predicate predicate **/
     /**
-     * http://localhost:8080/products?categoryId={id}
+     * http://localhost:9090/products?categoryId={id}
      **/
 
     @GetMapping("/{id}/products")
