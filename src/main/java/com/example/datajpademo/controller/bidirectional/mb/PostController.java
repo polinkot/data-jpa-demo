@@ -1,5 +1,6 @@
 package com.example.datajpademo.controller.bidirectional.mb;
 
+import com.example.datajpademo.exception.ObjectNotFoundException;
 import com.example.datajpademo.model.bidirectional.mb.Post;
 import com.example.datajpademo.model.dto.CommentProjection;
 import com.example.datajpademo.repository.bidirectional.mb.PostRepository;
@@ -32,7 +33,13 @@ public class PostController {
 
     @ApiOperation(value = "Получение по id")
     @GetMapping("/{id}")
-    public Post findById(@PathVariable("id") Post post) throws Exception {
+    public Post findById(@PathVariable("id") Long id) throws Exception {
+        return repository.findById(id).orElseThrow(() -> new ObjectNotFoundException(id));
+    }
+
+    @ApiOperation(value = "Получение по id (Web Support)")
+    @GetMapping("/web_support/{id}")
+    public Post findById1(@PathVariable("id") Post post) throws Exception {
         return ofNullable(post).orElseThrow(Exception::new);
     }
 
