@@ -71,7 +71,7 @@ public @Valid Product create(@RequestBody @Valid Product product) {
     return repository.save(product);
 }
 ```
-```~~~~````~~~~
+```
 @ApiOperation(value = "Обновление")
 @PutMapping
 public @Valid Product update(@RequestBody @Valid Product product) {
