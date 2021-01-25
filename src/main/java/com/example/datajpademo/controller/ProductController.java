@@ -1,5 +1,6 @@
 package com.example.datajpademo.controller;
 
+import com.example.datajpademo.exception.ObjectNotFoundException;
 import com.example.datajpademo.model.Product;
 import com.example.datajpademo.repository.ProductRepository;
 import com.example.datajpademo.service.ProductService;
@@ -38,7 +39,13 @@ public class ProductController {
 
     @ApiOperation(value = "Получение по id")
     @GetMapping("/{id}")
-    public Product findById(@PathVariable("id") Product product) throws Exception {
+    public Product findById(@PathVariable UUID id) throws Exception {
+        return repository.findById(id).orElseThrow(() -> new ObjectNotFoundException(id));
+    }
+
+    @ApiOperation(value = "Получение по id (Web Support)")
+    @GetMapping("/web_support/{id}")
+    public Product findById1(@PathVariable("id") Product product) throws Exception {
         return ofNullable(product).orElseThrow(Exception::new);
     }
 
@@ -105,7 +112,6 @@ public class ProductController {
 
     /*************** By example *******************/
     //https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#query-by-example
-
     @ApiOperation(value = "By example")
     @GetMapping("/byExapmle")
     public List<Product> findByExample(Product product) {

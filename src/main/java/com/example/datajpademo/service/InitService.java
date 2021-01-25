@@ -22,6 +22,7 @@ import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static java.util.stream.Stream.iterate;
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
 @Service
@@ -96,7 +97,7 @@ public class InitService {
     }
 
     private Product buildProduct(String name, UUID categoryId) {
-        return Product.builder().name(name).categoryId(categoryId).build();
+        return Product.builder().name(name).categoryId(categoryId).code(randomAlphabetic(10)).build();
     }
 
     private Post buildPost(String title) {

@@ -1,6 +1,5 @@
 package com.example.datajpademo.controller.bidirectional.mb;
 
-import com.example.datajpademo.exception.ObjectNotFoundException;
 import com.example.datajpademo.model.bidirectional.mb.Post;
 import com.example.datajpademo.model.dto.CommentProjection;
 import com.example.datajpademo.repository.bidirectional.mb.PostRepository;
@@ -29,12 +28,6 @@ public class PostController {
     @GetMapping
     public List<Post> findAll(@QuerydslPredicate(root = Post.class) Predicate predicate, Pageable pageable) {
         return repository.findAll(predicate, pageable).getContent();
-    }
-
-    @ApiOperation(value = "Получение по id")
-    @GetMapping("/{id}")
-    public Post findById(@PathVariable("id") Long id) throws Exception {
-        return repository.findById(id).orElseThrow(() -> new ObjectNotFoundException(id));
     }
 
     @ApiOperation(value = "Получение по id (Web Support)")

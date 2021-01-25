@@ -30,6 +30,7 @@ public class Product {
 
     private Timestamp ts;
     private String name;
+    private String code;
 
     @NotNull
     @Column(nullable = false, updatable = false)
